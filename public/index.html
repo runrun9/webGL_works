@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>Lesson Socket.IO</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.transit.min.js"></script>
+	<script type="text/javascript" src="jquery.textFx.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+<!--	<script src="http://' + location.hostname + ':3000/socket.io/socket.io.js"></script> -->
+
+	<script>
+
+	var inroom=0;
+	$(function(){
+		var socket = io.connect();
+		var clientname="no name";
+
+		// emit: �C�x���g�𔭐M���Ă���
+		// on: �C�x���g���҂��󂯂Ă���
+
+		//入室
+		$("#roomForm").submit(function(e){
+			e.preventDefault();
+			socket.json.emit("emit_from_client_in",{
+				room: $("#rooms").val(),
+				name: $("#name").val()
+			});
+			inroom=1;
+		});
+		//投稿
+		$("#myForm").submit(function(e){
+			if(inroom!=0){
+				e.preventDefault();
+				socket.json.emit("emit_from_client_tweet",{
+					msg: $("#msg").val(),
+					name: clientname
+				});
+				$("#msg").val("").focus();
+			}
+		});
+
+		//入室処理
+		socket.on("inroom",function(data){
+			$("#roomForm").remove();
+			$("#clientname").text("name: "+data);
+			clientname=data;
+		});
+		socket.on("inroom2",function(data){
+			$("#roomname").text("room: "+data);
+		});
+		// 投稿表示
+		socket.on("emit_from_server",function(data){
+			if(inroom!=0){
+				$("#logs").append($("<li class='hatugen'>").text(data));
+				$('.hatugen:last').textFx({
+					type: 'slideIn', //動きfadeIn  slideIn  rotate  scale
+			    iChar: 70, //文字間の表示間隔
+			    iAnim: 500, //アニメーションの速度
+			    direction: 'top' //現れる方向slideのみ
+				});
+			}
+		});
+	});
+	</script>
+</head>
+<body>
+	<p><h1>チャットルーム</h1></p>
+	<form id="roomForm">
+		<select id="rooms">
+			<option value="room-1">Room 1</option>
+			<option value="room-2">Room 2</option>
+		</select>
+		name<input type="text" id="name"><br>
+		<input type="submit" value="in"><br>
+	</form>
+	<ul id="logs" class="tweet"></ul>
+	<p id="clientname"></p>
+	<p id="roomname"></p>
+	<form id="myForm">
+		tweet<input type="text" id="msg"><input type="submit" value="send!">
+	</form>
+	<img src="cat.png" >
+
+</body>
+</html>
