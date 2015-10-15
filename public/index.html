@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Lesson Socket.IO</title>
+	<link rel="stylesheet" href="index.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.transit.min.js"></script>
 	<script type="text/javascript" src="jquery.textFx.js"></script>
@@ -65,7 +66,7 @@
 	</script>
 </head>
 <body>
-	<p><h1>チャットルーム</h1></p>
+	<p><h1 id="title">チャットルーム</h1></p>
 	<form id="roomForm">
 		<select id="rooms">
 			<option value="room-1">Room 1</option>
@@ -74,13 +75,15 @@
 		name<input type="text" id="name"><br>
 		<input type="submit" value="in"><br>
 	</form>
-	<ul id="logs" class="tweet"></ul>
+	<div class="box">
+		<ul id="logs" class="tweet"></ul>
+	</div>
 	<p id="clientname"></p>
 	<p id="roomname"></p>
 	<form id="myForm">
 		<input type="text" id="msg"><input type="submit" value="send!">
 	</form>
-	<img src="cat.png" >
+	<img class="cat" src="cat.png" >
 
 </body>
 </html>

@@ -9,7 +9,9 @@ console.log("server starting");
 
 io.sockets.on("connection",function(socket){
 	socket.on("emit_from_client_tweet",function(data){
-		io.sockets.emit("emit_from_server","["+data.name+"] : "+data.msg);
+		if(data.msg!=""){
+			io.sockets.emit("emit_from_server","["+data.name+"] : "+data.msg);
+		}
 
 	});
 	socket.on("emit_from_client_in",function(data){
