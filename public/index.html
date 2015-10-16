@@ -3,21 +3,32 @@
 <head>
 	<meta charset="utf-8">
 	<title>Lesson Socket.IO</title>
-	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/pushy.css">
+	<link rel="stylesheet" href="css/normalize.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script type="text/javascript" src="jquery.transit.min.js"></script>
-	<script type="text/javascript" src="jquery.textFx.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-<!--	<script src="http://' + location.hostname + ':3000/socket.io/socket.io.js"></script> -->
+	<script type="text/javascript" src="js/jquery.transit.min.js"></script>
+	<script type="text/javascript" src="js/jquery.textFx.js"></script>
+	<script src="js/pushy.min.js"></script>
 
 	<script>
 	var inroom=0;
+	function Cchange(x){
+		var Bodycolor=document.getElementById('body');
+		if(x==1){
+			Bodycolor.style.backgroundColor = "lavender";
+		}else if(x==2){
+			Bodycolor.style.backgroundColor = "lightsalmon";
+		}else if(x==3){
+			Bodycolor.style.backgroundColor = "skyblue";
+		}
+	}
+
+//以下socket.io
 	$(function(){
 		var socket = io.connect();
 		var clientname="no name";
-
-		// emit: �C�x���g�𔭐M���Ă���
-		// on: �C�x���g���҂��󂯂Ă���
 
 		//入室
 		$("#roomForm").submit(function(e){
@@ -65,7 +76,20 @@
 	});
 	</script>
 </head>
-<body>
+<body id="body">
+
+	<nav class="pushy pushy-left">
+		<ul>
+			<li><a href="#" onClick="Cchange(1)">lavender</a></li>
+			<li><a href="#" onClick="Cchange(2)">lightsalmon</a></li>
+			<li><a href="#" onClick="Cchange(3)">skyblue</a></li>
+		</ul>
+	</nav>
+
+	<div class="site-overlay"></div>
+	<div id="container">
+	<div class="menu-btn">&#9776; Menu</div>
+
 	<p><h1 id="title">Chat Room</h1></p>
 	<form id="roomForm">
 		select room<select id="rooms">
@@ -83,8 +107,9 @@
 	<form id="myForm">
 		<input type="text" id="msg"><input type="submit" value="send!">
 	</form>
-
 	<img class="cat" src="cat.png" >
+
+	</div>
 
 </body>
 </html>
