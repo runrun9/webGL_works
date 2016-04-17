@@ -13,6 +13,7 @@ io.sockets.on("connection",function(socket){
 		if(data.msg!=""){
 			socket.broadcast.to(data.room).emit("emit_from_server","["+data.name+"] : "+data.msg);
 			socket.emit("emit_from_server","["+data.name+"] : "+data.msg);
+			console.log(data.name+" : "+data.msg);
 		}
 	});
 	//部屋参加
