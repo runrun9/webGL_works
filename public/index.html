@@ -1,53 +1,167 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<title>Lesson Socket.IO</title>
-	<link rel="stylesheet" href="css/index.css">
-	<link rel="stylesheet" href="css/pushy.css">
-	<link rel="stylesheet" href="css/normalize.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="js/jquery.transit.min.js"></script>
-	<script type="text/javascript" src="js/jquery.textFx.js"></script>
-	<script src="js/pushy.min.js"></script>
-	<script src="js/main.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <title>Three.js lesson</title>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <script src="js/three.min.js"></script>
+    <script src="js/charsetencoder.min.js"></script>
+    <script src="js/ammo.js"></script>
+    <script src="js/TGALoader.js"></script>
+    <script src="js/MMDLoader.js"></script>
+    <script src="js/CCDIKSolver.js"></script>
+    <script src="js/MMDPhysics.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/stats.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="DeviceOrientationControls.js"></script>
+    <script>
+      (function(){
+        var stats;
+        var mesh, camera, scene, renderer;
+        var helper;
+        var windowWidth = window.innerWidth;
+        var windowHeight = window.innerHeight;
+        var clock = new THREE.Clock();
+        var modelReady = false;
+        var musicReady = false;
+        var controls;
+        var gcontrols;
 
-</head>
-<body id="body">
+        var ua = navigator.userAgent;
+        if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0) {
+          var sp = true;
+        }else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+          var sp = true;
+        }
 
-	<nav class="pushy pushy-left">
-		<ul>
-			<li><a href="#" onClick="Cchange(1)">lavender</a></li>
-			<li><a href="#" onClick="Cchange(2)">lightsalmon</a></li>
-			<li><a href="#" onClick="Cchange(3)">skyblue</a></li>
-		</ul>
-	</nav>
+        init();
+        render();
 
-	<div class="site-overlay"></div>
-	<div id="container">
-	<div class="menu-btn">&#9776; Menu</div>
+        function init() {
+            // シーンの作成
+            scene = new THREE.Scene();
 
-	<p><h1 id="title">Chat Room</h1></p>
-	<form id="roomForm">
-		select room<select id="rooms">
-			<option value="room-1">Room 1</option>
-			<option value="room-2">Room 2</option>
-		</select>
-		<br>name<input type="text" id="name"><br>
-		<input type="submit" value="in"><br>
-	</form>
-	<div class="box">
-		<ul id="logs" class="tweet"></ul>
-	</div>
-	<p id="clientname"></p>
-	<p id="roomname"></p>
-	<form id="myForm">
-		<input type="text" id="msg"><input type="submit" value="send!">
-	</form>
-	<img class="cat" src="cat.png" >
+            // FPSの表示
+            stats = new Stats();
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.top = '0px';
+            stats.domElement.style.zIndex = 100;
+            document.body.appendChild(stats.domElement);
 
-	</div>
+            // 光の作成
+            var ambient = new THREE.AmbientLight(0xeeeeee);
+            scene.add(ambient);
+            var light1 = new THREE.DirectionalLight(0x888888, 0.3);
+            light1.position.set(-50, 15, 30);
+            scene.add(light1);
+            var light2 = new THREE.DirectionalLight(0x888888, 0.3);
+            light2.position.set(50, 15, 30);
+            scene.add(light2);
 
-</body>
+            // 画面表示の設定
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(windowWidth, windowHeight);
+            renderer.setClearColor(new THREE.Color( 0xffffff));
+            document.body.appendChild(renderer.domElement);
+
+            // カメラの作成
+            camera = new THREE.PerspectiveCamera(50, windowWidth / windowHeight, 1, 1000);
+            camera.position.set(0, 10, 35);
+            if(sp){
+              gcontrols = new THREE.DeviceOrientationControls(camera, renderer.domElement);
+            }else{
+              controls = new THREE.OrbitControls(camera, renderer.domElement);
+              controls.minDistance = 10;
+              controls.maxDistance = 60;
+              controls.maxPolarAngle = Math.PI * 0.5;
+            }
+
+
+            // ステージの作成
+            var sGeometry = new THREE.PlaneGeometry(150, 50);
+            var stageTexture = THREE.ImageUtils.loadTexture('/sirokuroA.jpg');
+            stageTexture.wrapS = stageTexture.wrapT = THREE.RepeatWrapping;
+            stageTexture.repeat.set(45, 15);
+            var sMaterial = new THREE.MeshLambertMaterial({map:stageTexture, side: THREE.DoubleSlide});
+            var stage = new THREE.Mesh(sGeometry, sMaterial);
+            stage.position.set(0, -10, 0)
+            stage.rotation.x = -90 * Math.PI / 180;
+            scene.add(stage);
+
+            // モデルとモーションの読み込み準備
+            helper = new THREE.MMDHelper(renderer);
+            var onProgress = function (xhr) {
+            };
+            var onError = function (xhr) {
+                alert('読み込みに失敗しました。');
+            };
+            var modelFile = 'models/mmd/Lat_miku/Lat_miku.pmd';
+            var vmdFiles = ['models/vmd/nekomimi_lat.vmd'];
+
+            // モデルとモーションの読み込み
+            var loader = new THREE.MMDLoader();
+            loader.load(modelFile, vmdFiles, function(object) {
+                modelReady = true;
+                mesh = object;
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                mesh.position.set(0, -10, 0);
+                helper.add(mesh);
+                helper.setAnimation(mesh);
+                // helper.setPhysics(mesh);
+                // helper.unifyAnimationDuration({
+                //     afterglow: 2.0
+                // });
+                scene.add(mesh);
+            }, onProgress, onError);
+
+
+            // サウンドの読み込み
+            // var audioFile = 'models/music/music.m4a';
+            // loader.loadAudio(audioFile, function(audio, listener) {
+            //     musicReady = true;
+            //     listener.position.z = 1;
+            //     helper.setAudio(audio, listener);
+            //     helper.unifyAnimationDuration();
+            //     scene.add(audio);
+            //     scene.add(listener);
+            //     ready = true;
+            // }, onProgress, onError);
+
+            // リサイズ時
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            windowWidth = window.innerWidth;
+            windowHeight = window.innerHeight;
+            camera.aspect = windowWidth / windowHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(windowWidth, windowHeight);
+        }
+
+        function render() {
+            requestAnimationFrame(render);
+            if(modelReady && musicReady) {
+                helper.animate(clock.getDelta());
+                helper.render(scene, camera);
+            } else {
+                renderer.clear();
+                renderer.render(scene, camera);
+            }
+            stats.update();
+            if(sp){
+              gcontrols.connect();
+              gcontrols.update();
+            }else{
+              controls.update();
+            }
+        }
+      })();
+    </script>
+  </body>
 </html>
