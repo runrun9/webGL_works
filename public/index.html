@@ -168,13 +168,8 @@
         }
 
         function render() {
-            if(modelReady && musicReady) {
-                //helper.animate(clock.getDelta());
-                //helper.render(scene, camera);
-            } else {
-                renderer.clear();
-                effect.render(scene, camera);
-            }
+            renderer.clear();
+            effect.render(scene, camera);
             stats.update();
             controls.update();
         }
