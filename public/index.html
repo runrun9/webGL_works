@@ -18,6 +18,7 @@
     <script src="js/OrbitControls.js"></script>
     <script src="js/DeviceOrientationControls.js"></script>
     <script src="js/StereoEffect.js"></script>
+    <script src="js/vox.min.js"></script>
     <script>
       (function(){
         var stats;
@@ -89,32 +90,62 @@
             stage.rotation.x = -90 * Math.PI / 180;
             scene.add(stage);
 
-            // モデルとモーションの読み込み準備
-            helper = new THREE.MMDHelper(renderer);
-            var onProgress = function (xhr) {
-            };
-            var onError = function (xhr) {
-                alert('読み込みに失敗しました。');
-            };
-            var modelFile = 'models/mmd/Lat_miku/Lat_miku.pmd';
-            var vmdFiles = ['models/vmd/nekomimi_lat.vmd'];
+            // モデル読み込み(キツネ)
+            // パーサーを作ります
+            var parser = new vox.Parser();
 
-            // モデルとモーションの読み込み
-            var loader = new THREE.MMDLoader();
-            loader.load(modelFile, vmdFiles, function(object) {
-                modelReady = true;
-                mesh = object;
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-                mesh.position.set(0, -10, 0);
-                helper.add(mesh);
-                helper.setAnimation(mesh);
-                // helper.setPhysics(mesh);
-                // helper.unifyAnimationDuration({
-                //     afterglow: 2.0
-                // });
-                scene.add(mesh);
-            }, onProgress, onError);
+            // *.voxファイルを読み込みます
+            parser.parse("models/vox/chr_fox.vox").then(function(voxelData) { // ←ボクセルデータが取れます
+              // データ全体の大きさ
+              voxelData.size; // => { x: number, y: number, z: number }
+              // ボクセルの配列
+              voxelData.voxels; // => [Voxel, Voxel, Voxel, ...]
+              // ボクセル一個のデータ
+              voxelData.voxels[0]; // => { x: number, y: number, z: number, colorIndex: number }
+              // カラーパレット
+              voxelData.palette; // => [Color, Color, Color, ...]
+              voxelData.palette[0]; // => { r: number, g: number, b: number, a: number }
+              // ビルダーを作ります。引数にボクセルデータをわたします
+              var builder = new vox.MeshBuilder(voxelData);
+              // THREE.Meshを作ります
+              var mesh = builder.createMesh();
+              // THREE.Sceneに追加するなどして使ってください
+              scene.add(mesh);
+              var edge = new THREE.EdgesHelper( mesh, "#000" );
+              edge.material.linewidth = 2;
+              scene.add(edge);
+            });
+
+
+
+            // // モデルとモーションの読み込み準備
+            // helper = new THREE.MMDHelper(renderer);
+            // var onProgress = function (xhr) {
+            // };
+            // var onError = function (xhr) {
+            //     alert('読み込みに失敗しました。');
+            // };
+            // var modelFile = 'models/mmd/Lat_miku/Lat_miku.pmd';
+            // var vmdFiles = ['models/vmd/nekomimi_lat.vmd'];
+            //
+            // // モデルとモーションの読み込み
+            // var loader = new THREE.MMDLoader();
+            // loader.load(modelFile, vmdFiles, function(object) {
+            //     modelReady = true;
+            //     mesh = object;
+            //     mesh.castShadow = true;
+            //     mesh.receiveShadow = true;
+            //     mesh.position.set(0, -10, 0);
+            //     helper.add(mesh);
+            //     helper.setAnimation(mesh);
+            //     // helper.setPhysics(mesh);
+            //     // helper.unifyAnimationDuration({
+            //     //     afterglow: 2.0
+            //     // });
+            //     scene.add(mesh);
+            // }, onProgress, onError);
+
+
             // スマートフォンの場合はジャイロセンサーでの操作へ変更
             window.addEventListener("deviceorientation", setOrientationControls, true);
             // windowのリサイズ処理
