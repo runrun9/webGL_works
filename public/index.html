@@ -163,6 +163,11 @@
 
               controls = new THREE.DeviceOrientationControls(camera, true);
               controls.connect();
+              controls.target.set(
+          			camera.position.x,
+          			camera.position.y,
+          			camera.position.z-0.15
+          		);
               controls.update();
 
               //element.addEventListener("click", fullscreen, false);
