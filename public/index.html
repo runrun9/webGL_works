@@ -112,13 +112,30 @@
               // THREE.Meshを作ります
               mesh = builder.createMesh();
               // THREE.Sceneに追加するなどして使ってください
+              // mesh.material.specular="0xffff00";
+              mesh.material.specular.r=0;
+              mesh.material.specular.g=255;
+              mesh.material.specular.b=255;
+              mesh.material.shininess=1000;
+              mesh.material.transparent=true;
+              mesh.material.opacity=0.7;
+              // console.log(mesh.material.ambient.toSource()+"です");
               scene.add(mesh);
               var edge = new THREE.EdgesHelper( mesh, "#000" );
               edge.material.linewidth = 2;
               scene.add(edge);
+              mesh.castShadow = true;
+              mesh.receiveShadow = true;
             });
 
+            ////////////////////////////////////////
+            // shadow
+            light1.castShadow = true;
+            light2.castShadow = true;
+            stage.receiveShadow = true;
+            renderer.shadowMapEnabled = true;
 
+            ////////////////////////////////////////
 
             // // モデルとモーションの読み込み準備
             // helper = new THREE.MMDHelper(renderer);
