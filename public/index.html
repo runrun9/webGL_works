@@ -19,6 +19,7 @@
     <script src="js/DeviceOrientationControls.js"></script>
     <script src="js/StereoEffect.js"></script>
     <script src="js/vox.min.js"></script>
+    <script src="js/glitch.js"></script>
     <script>
       (function(){
         var stats;
@@ -32,6 +33,7 @@
         var controls;
 
         init();
+        // var glitch = new glitchBox(document.getElementsByTagName("canvas").item(2));
         loop();
 
         function init() {
@@ -227,6 +229,8 @@
             // mesh.scale.x += 0.0005;
             // mesh.scale.y += 0.0005;
             // mesh.scale.z += 0.0005;
+
+            // glitch.glitchFillRandom(5,20);
 
         }
       })();
