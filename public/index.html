@@ -19,7 +19,7 @@
     <script src="js/DeviceOrientationControls.js"></script>
     <script src="js/StereoEffect.js"></script>
     <script src="js/vox.min.js"></script>
-    <script src="js/glitch.js"></script>
+
     <script>
       (function(){
         var stats;
@@ -31,9 +31,9 @@
         var modelReady = false;
         var musicReady = false;
         var controls;
+        var composer,glitchPass;
 
         init();
-        // var glitch = new glitchBox(document.getElementsByTagName("canvas").item(2));
         loop();
 
         function init() {
@@ -71,7 +71,7 @@
             // VR表示へ変換
             effect = new THREE.StereoEffect(renderer);
             //pcの場合ドラッグ操作
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls = new THREE.OrbitControls(camera, effect.domElement);
             //controls.rotateUp(Math.PI / 4);
         		controls.target.set(
         			camera.position.x,
@@ -139,34 +139,6 @@
 
             ////////////////////////////////////////
 
-            // // モデルとモーションの読み込み準備
-            // helper = new THREE.MMDHelper(renderer);
-            // var onProgress = function (xhr) {
-            // };
-            // var onError = function (xhr) {
-            //     alert('読み込みに失敗しました。');
-            // };
-            // var modelFile = 'models/mmd/Lat_miku/Lat_miku.pmd';
-            // var vmdFiles = ['models/vmd/nekomimi_lat.vmd'];
-            //
-            // // モデルとモーションの読み込み
-            // var loader = new THREE.MMDLoader();
-            // loader.load(modelFile, vmdFiles, function(object) {
-            //     modelReady = true;
-            //     mesh = object;
-            //     mesh.castShadow = true;
-            //     mesh.receiveShadow = true;
-            //     mesh.position.set(0, -10, 0);
-            //     helper.add(mesh);
-            //     helper.setAnimation(mesh);
-            //     // helper.setPhysics(mesh);
-            //     // helper.unifyAnimationDuration({
-            //     //     afterglow: 2.0
-            //     // });
-            //     scene.add(mesh);
-            // }, onProgress, onError);
-
-
             // スマートフォンの場合はジャイロセンサーでの操作へ変更
             window.addEventListener("deviceorientation", setOrientationControls, true);
             // windowのリサイズ処理
@@ -189,19 +161,6 @@
               window.removeEventListener("deviceorientation", setOrientationControls, true);
             }
 
-            // サウンドの読み込み
-            // var audioFile = 'models/music/music.m4a';
-            // loader.loadAudio(audioFile, function(audio, listener) {
-            //     musicReady = true;
-            //     listener.position.z = 1;
-            //     helper.setAudio(audio, listener);
-            //     helper.unifyAnimationDuration();
-            //     scene.add(audio);
-            //     scene.add(listener);
-            //     ready = true;
-            // }, onProgress, onError);
-
-
             // リサイズ時
             window.addEventListener('resize', onWindowResize, false);
         }
@@ -220,7 +179,7 @@
         }
 
         function render() {
-            renderer.clear();
+            // renderer.clear();
             effect.render(scene, camera);
             stats.update();
             controls.update();
@@ -229,9 +188,6 @@
             // mesh.scale.x += 0.0005;
             // mesh.scale.y += 0.0005;
             // mesh.scale.z += 0.0005;
-
-            // glitch.glitchFillRandom(5,20);
-
         }
       })();
     </script>
