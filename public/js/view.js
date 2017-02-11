@@ -12,7 +12,6 @@
   var world;
 
   init();
-  setTimeout(scrollTo, 2000, 0, 300);
   loop();
 
   function init() {
