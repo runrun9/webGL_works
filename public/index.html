@@ -5,7 +5,7 @@
     <title>Three.js lesson</title>
   </head>
   <body>
-    <div id="stage"></div>
+    <div id="world"></div>
     <script src="js/three.min.js"></script>
     <script src="js/charsetencoder.min.js"></script>
     <!-- <script src="js/ammo.js"></script> -->
@@ -32,6 +32,7 @@
         var musicReady = false;
         var controls;
         var composer,glitchPass;
+        var world;
 
         init();
         loop();
@@ -42,11 +43,12 @@
             scene = new THREE.Scene();
 
             // FPSの表示
+            world = document.getElementById('world');
             stats = new Stats();
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.top = '0px';
             stats.domElement.style.zIndex = 100;
-            document.body.appendChild(stats.domElement);
+            world.appendChild(stats.domElement);
 
             // 光の作成
             var ambient = new THREE.AmbientLight(0xeeeeee);
