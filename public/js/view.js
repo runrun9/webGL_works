@@ -12,10 +12,10 @@
   var world;
 
   init();
+  setTimeout(scrollTo, 300, 0, 100);
   loop();
 
   function init() {
-    setTimeout(scrollTo, 300, 0, 100);
     world = document.getElementById('world');
       // シーンの作成
       scene = new THREE.Scene();
