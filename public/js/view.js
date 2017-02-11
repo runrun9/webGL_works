@@ -15,7 +15,7 @@
   loop();
 
   function init() {
-    setTimeout(scrollTo, 100, 0, 1);
+    setTimeout(scrollTo, 300, 0, 1);
     world = document.getElementById('world');
       // シーンの作成
       scene = new THREE.Scene();
