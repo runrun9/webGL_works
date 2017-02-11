@@ -2,36 +2,3 @@ body{
   background-color: lavender;
   text-align:center;
 }
-.menu-btn{
-	width: 100px;
-	padding: 12px 1px;
-	margin-bottom: 30px;
-	background: #000;
-	color: #FFF;
-	text-align: center;
-	cursor: pointer;
-  font-weight: bold;
-}
-.menu-btn:hover{
-	background: #00b4ff;
-	color: #FFF;
-}
-#clientname,#roomname{ color : blue; }
-input:focus{background:skyblue;}
-.box{
-  text-align: center;
-   margin-left: auto;
-   margin-right: auto;
-   width: 500px;
-}
-.tweet{
-  text-align:left;
-}
-img.cat{
-  width: 30%;
-height: 30%;
-}
-#container{
-	position: relative;
-	padding: 20px 40px;
-}
