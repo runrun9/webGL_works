@@ -51,6 +51,21 @@
       effect = new THREE.StereoEffect(renderer);
       //pcの場合ドラッグ操作
       controls = new THREE.OrbitControls(camera, effect.domElement);
+      // スマートフォンの場合はジャイロセンサーでの操作へ変更
+      function setOrientationControls(e) {
+        if (!e.alpha) {
+          return;
+        }
+
+        controls = new THREE.DeviceOrientationControls(camera, true);
+        controls.connect();
+        controls.update();
+
+        //element.addEventListener("click", fullscreen, false);
+
+        window.removeEventListener("deviceorientation", setOrientationControls, true);
+      }
+      window.addEventListener("deviceorientation", setOrientationControls, true);
       //controls.rotateUp(Math.PI / 4);
       controls.target.set(
         camera.position.x,
@@ -118,30 +133,9 @@
 
       ////////////////////////////////////////
 
-      // スマートフォンの場合はジャイロセンサーでの操作へ変更
-      window.addEventListener("deviceorientation", setOrientationControls, true);
-      // windowのリサイズ処理
-      window.addEventListener("resize", onWindowResize, false);
-      onWindowResize();
-      /**
-       * ジャイロセンサーでの操作へ変更します。
-       */
-      function setOrientationControls(e) {
-        if (!e.alpha) {
-          return;
-        }
-
-        controls = new THREE.DeviceOrientationControls(camera, true);
-        controls.connect();
-        controls.update();
-
-        //element.addEventListener("click", fullscreen, false);
-
-        window.removeEventListener("deviceorientation", setOrientationControls, true);
-      }
-
       // リサイズ時
       window.addEventListener('resize', onWindowResize, false);
+      onWindowResize();
   }
 
   function onWindowResize() {
