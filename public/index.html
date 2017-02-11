@@ -5,7 +5,7 @@
     <title>Three.js lesson</title>
   </head>
   <body>
-    <div id="canvas"></div>
+    <div id="stage"></div>
     <script src="js/three.min.js"></script>
     <script src="js/charsetencoder.min.js"></script>
     <!-- <script src="js/ammo.js"></script> -->
@@ -58,12 +58,11 @@
             scene.add(light2);
 
             // 画面表示の設定
-            canvas = document.getElementById('canvas');
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(windowWidth, windowHeight);
             renderer.setClearColor(new THREE.Color( 0xffffff));
-            canvas.appendChild(renderer.domElement);
+            document.body.appendChild(renderer.domElement);
 
             // カメラの作成
             camera = new THREE.PerspectiveCamera(50, windowWidth / windowHeight, 1, 1000);
