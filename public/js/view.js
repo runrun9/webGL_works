@@ -9,13 +9,11 @@
   var musicReady = false;
   var controls;
   var composer,glitchPass;
-  var world;
 
   init();
   loop();
 
   function init() {
-    world = document.getElementById('world');
     // シーンの作成
     scene = new THREE.Scene();
 
@@ -24,7 +22,7 @@
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
     stats.domElement.style.zIndex = 100;
-    world.appendChild(stats.domElement);
+    document.body.appendChild(stats.domElement);
 
     // 光の作成
     var ambient = new THREE.AmbientLight(0xeeeeee);
@@ -41,7 +39,7 @@
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(windowWidth, windowHeight);
     renderer.setClearColor(new THREE.Color( 0xffffff));
-    world.appendChild(renderer.domElement);
+    document.body.appendChild(renderer.domElement);
 
     // カメラの作成
     camera = new THREE.PerspectiveCamera(50, windowWidth / windowHeight, 1, 1000);
