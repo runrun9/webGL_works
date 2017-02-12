@@ -1,6 +1,6 @@
 (function(){
   var stats;
-  var fox, rain, camera, scene, renderer;
+  var fox, rain, unity_chan, pronama, camera, scene, renderer;
   var helper;
   var windowWidth = window.innerWidth;
   var windowHeight = window.innerHeight;
@@ -119,6 +119,75 @@
       fox.receiveShadow = true;
     });
 
+    //↑同じくrainを作る
+    parser.parse("models/vox/chr_rain.vox").then(function(voxelData) {
+      // ビルダーを作ります。引数にボクセルデータをわたします
+      var builder = new vox.MeshBuilder(voxelData);
+      // THREE.Meshを作ります
+      rain = builder.createMesh();
+      // THREE.Sceneに追加するなどして使ってください
+      // mesh.material.specular="0xffff00";
+      rain.material.specular.r=0;
+      rain.material.specular.g=255;
+      rain.material.specular.b=255;
+      rain.material.shininess=1000;
+      rain.material.transparent=true;
+      rain.material.opacity=0.7;
+      rain.position.set(35,0,35);
+      scene.add(rain);
+      var edge = new THREE.EdgesHelper( rain, "#000" );
+      edge.material.linewidth = 2;
+      scene.add(edge);
+      rain.castShadow = true;
+      rain.receiveShadow = true;
+    });
+
+    //↑同じくユニティちゃんを作る
+    parser.parse("models/vox/unity.vox").then(function(voxelData) {
+      // ビルダーを作ります。引数にボクセルデータをわたします
+      var builder = new vox.MeshBuilder(voxelData);
+      // THREE.Meshを作ります
+      unity_chan = builder.createMesh();
+      // THREE.Sceneに追加するなどして使ってください
+      // mesh.material.specular="0xffff00";
+      unity_chan.material.specular.r=0;
+      unity_chan.material.specular.g=255;
+      unity_chan.material.specular.b=255;
+      unity_chan.material.shininess=1000;
+      unity_chan.material.transparent=true;
+      unity_chan.material.opacity=0.7;
+      unity_chan.position.set(-35,0,35);
+      scene.add(unity_chan);
+      var edge = new THREE.EdgesHelper( unity_chan, "#000" );
+      edge.material.linewidth = 2;
+      scene.add(edge);
+      unity_chan.castShadow = true;
+      unity_chan.receiveShadow = true;
+    });
+
+    //↑同じくプロ生ちゃんを作る
+    parser.parse("models/vox/pronama.vox").then(function(voxelData) {
+      // ビルダーを作ります。引数にボクセルデータをわたします
+      var builder = new vox.MeshBuilder(voxelData);
+      // THREE.Meshを作ります
+      pronama = builder.createMesh();
+      // THREE.Sceneに追加するなどして使ってください
+      // mesh.material.specular="0xffff00";
+      pronama.material.specular.r=0;
+      pronama.material.specular.g=255;
+      pronama.material.specular.b=255;
+      pronama.material.shininess=1000;
+      pronama.material.transparent=true;
+      pronama.material.opacity=0.7;
+      pronama.position.set(0,0,70);
+      scene.add(pronama);
+      var edge = new THREE.EdgesHelper( pronama, "#000" );
+      edge.material.linewidth = 2;
+      scene.add(edge);
+      pronama.castShadow = true;
+      pronama.receiveShadow = true;
+    });
+
     ////////////////////////////////////////
     // shadow
     light1.castShadow = true;
@@ -153,6 +222,9 @@
       controls.update();
 
       fox.rotation.y += 0.01;
+      rain.rotation.y += 0.01;
+      unity_chan.rotation.y += 0.01;
+      pronama.rotation.y += 0.01;
       // fox.scale.x += 0.0005;
       // fox.scale.y += 0.0005;
       // fox.scale.z += 0.0005;
