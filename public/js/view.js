@@ -221,10 +221,10 @@
       stats.update();
       controls.update();
 
-      fox.rotation.y += 0.01;
-      rain.rotation.y += 0.01;
-      unity_chan.rotation.y += 0.01;
-      pronama.rotation.y += 0.01;
+      fox.rotation.y += 0.015;
+      rain.rotation.y += 0.015;
+      unity_chan.rotation.y += 0.015;
+      pronama.rotation.y += 0.015;
       // fox.scale.x += 0.0005;
       // fox.scale.y += 0.0005;
       // fox.scale.z += 0.0005;
