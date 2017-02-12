@@ -47,6 +47,8 @@
       camera = new THREE.PerspectiveCamera(50, windowWidth / windowHeight, 1, 1000);
       camera.position.set(0, 10, 35);
       scene.add(camera);
+      console.log("カメラのポジ");
+      console.log(camera.position);
       // VR表示へ変換
       effect = new THREE.StereoEffect(renderer);
       //pcの場合ドラッグ操作
@@ -77,10 +79,10 @@
       controls.update();
 
       // ステージの作成
-      var sGeometry = new THREE.PlaneGeometry(150, 50);
+      var sGeometry = new THREE.PlaneGeometry(300, 300);
       var stageTexture = THREE.ImageUtils.loadTexture('sirokuroA.jpg');
       stageTexture.wrapS = stageTexture.wrapT = THREE.RepeatWrapping;
-      stageTexture.repeat.set(45, 15);
+      stageTexture.repeat.set(100, 100);
       var sMaterial = new THREE.MeshLambertMaterial({map:stageTexture, side: THREE.DoubleSlide});
       var stage = new THREE.Mesh(sGeometry, sMaterial);
       stage.position.set(0, -10, 0)
@@ -122,6 +124,8 @@
         scene.add(edge);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
+        console.log("キツネのポジ");
+        console.log(mesh.position);
       });
 
       ////////////////////////////////////////
