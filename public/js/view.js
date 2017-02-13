@@ -1,6 +1,6 @@
 (function(){
   var stats;
-  var fox, rain, unity_chan, pronama, camera, scene, renderer;
+  var fox, rain, unity_chan, pronama, beard, camera, scene, renderer;
   var helper;
   var windowWidth = window.innerWidth;
   var windowHeight = window.innerHeight;
@@ -83,6 +83,14 @@
     stage.position.set(0, -10, 0)
     stage.rotation.x = -90 * Math.PI / 180;
     scene.add(stage);
+
+    // バックベアードの作成
+    sGeometry = new THREE.PlaneGeometry(20, 20);
+    var bbTexture = THREE.ImageUtils.loadTexture('BackBeard.png');
+    var sMaterial = new THREE.MeshLambertMaterial({map:bbTexture, side: THREE.DoubleSlide, transparent: true});
+    beard = new THREE.Mesh(sGeometry, sMaterial);
+    beard.position.set(0, 45, 35)
+    scene.add(beard);
 
     // モデル読み込み(キツネ)
     // パーサーを作ります
@@ -225,6 +233,7 @@
       rain.rotation.y += 0.015;
       unity_chan.rotation.y += 0.015;
       pronama.rotation.y += 0.015;
+      beard.rotation.setFromRotationMatrix(camera.matrix);
       // fox.scale.x += 0.0005;
       // fox.scale.y += 0.0005;
       // fox.scale.z += 0.0005;
