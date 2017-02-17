@@ -204,7 +204,7 @@
     var particles = new THREE.Geometry();
     var material = new THREE.PointsMaterial({
       color: 0xFFFFFF,
-      size: 0.1,
+      size: 0.7,
       transparent: true
     });
     for (var i = 0;i < 1000;i++){
