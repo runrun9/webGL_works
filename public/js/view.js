@@ -1,6 +1,6 @@
 (function(){
   var stats;
-  var beard, camera, scene, renderer;
+  var edge, beard, camera, scene, renderer;
   var helper;
   var windowWidth = window.innerWidth;
   var windowHeight = window.innerHeight;
@@ -10,6 +10,13 @@
   var controls;
   var composer,glitchPass;
   var meshes = {
+    "fox": null,
+    "rain": null,
+    "unity_chan": null,
+    "pronama": null
+
+  }
+  var edges = {
     "fox": null,
     "rain": null,
     "unity_chan": null,
@@ -124,9 +131,9 @@
       meshes.fox.material.transparent=true;
       meshes.fox.material.opacity=0.7;
       scene.add(meshes.fox);
-      var edge = new THREE.EdgesHelper( meshes.fox, "#000" );
-      edge.material.linewidth = 2;
-      scene.add(edge);
+      edges.fox = new THREE.EdgesHelper( meshes.fox, "#000" );
+      edges.fox.material.linewidth = 2;
+      scene.add(edges.fox);
       meshes.fox.castShadow = true;
       meshes.fox.receiveShadow = true;
     });
@@ -145,11 +152,12 @@
       meshes.rain.material.shininess=1000;
       meshes.rain.material.transparent=true;
       meshes.rain.material.opacity=0.7;
-    meshes.  rain.position.set(35,0,35);
+      meshes.rain.position.set(35,0,35);
       scene.add(meshes.rain);
-      var edge = new THREE.EdgesHelper( meshes.rain, "#000" );
-      edge.material.linewidth = 2;
-      scene.add(edge);
+      edges.rain = new THREE.EdgesHelper( meshes.rain, "#000" );
+      edges.rain.material.linewidth = 2;
+      edges.rain.position.set(35,0,35);
+      scene.add(edges.rain);
       meshes.rain.castShadow = true;
       meshes.rain.receiveShadow = true;
     });
@@ -170,9 +178,10 @@
       meshes.unity_chan.material.opacity=0.7;
       meshes.unity_chan.position.set(-35,0,35);
       scene.add(meshes.unity_chan);
-      var edge = new THREE.EdgesHelper( meshes.unity_chan, "#000" );
-      edge.material.linewidth = 2;
-      scene.add(edge);
+      edges.unity_chan = new THREE.EdgesHelper( meshes.unity_chan, "#000" );
+      edges.unity_chan.material.linewidth = 2;
+      edges.unity_chan.position.set(-35,0,35);
+      scene.add(edges.unity_chan);
       meshes.unity_chan.castShadow = true;
       meshes.unity_chan.receiveShadow = true;
     });
@@ -193,9 +202,10 @@
       meshes.pronama.material.opacity=0.7;
       meshes.pronama.position.set(0,0,70);
       scene.add(meshes.pronama);
-      var edge = new THREE.EdgesHelper( meshes.pronama, "#000" );
-      edge.material.linewidth = 2;
-      scene.add(edge);
+      edges.pronama = new THREE.EdgesHelper( meshes.pronama, "#000" );
+      edges.pronama.material.linewidth = 2;
+      edges.pronama.position.set(0,0,70);
+      scene.add(edges.pronama);
       meshes.pronama.castShadow = true;
       meshes.pronama.receiveShadow = true;
     });
@@ -215,7 +225,6 @@
       particles.vertices.push( particle );
     }
     pointCloud = new THREE.Points( particles, material );
-    console.log(particles[0]);
     scene.add(pointCloud);
 
     ////////////////////////////////////////
@@ -255,6 +264,10 @@
       meshes.rain.rotation.y += 0.015;
       meshes.unity_chan.rotation.y += 0.015;
       meshes.pronama.rotation.y += 0.015;
+      edges.fox.rotation.y += 0.015;
+      edges.rain.rotation.y += 0.015;
+      edges.unity_chan.rotation.y += 0.015;
+      edges.pronama.rotation.y += 0.015;
       beard.rotation.setFromRotationMatrix(camera.matrix);
       // fox.scale.x += 0.0005;
       // fox.scale.y += 0.0005;
