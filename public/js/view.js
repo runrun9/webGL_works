@@ -36,7 +36,7 @@
     document.body.appendChild(stats.domElement);
 
     // 光の作成
-    var ambient = new THREE.AmbientLight(0xeeeeee);
+    var ambient = new THREE.AmbientLight(0x666666);
     scene.add(ambient);
     var light1 = new THREE.DirectionalLight(0x888888, 0.3);
     light1.position.set(-50, 15, 30);
@@ -221,16 +221,19 @@
         alert('読み込みに失敗しました。');
     };
     var modelFile = 'models/pmd/サーバル/サーバルちゃん.pmx';
+    var vpdFile = 'models/pmd/サーバル/07.vpd'
     var loader = new THREE.MMDLoader();
     loader.loadModel(modelFile, function(object) {
       // modelReady = true;
-      console.log("aaaaa");
       serval = object;
       serval.material.shininess=0;
-      serval.castShadow = true;
-      serval.receiveShadow = true;
       serval.position.set(0, -10, 0);
+      serval.scale.set(1.5, 1.5, 1.5);
       scene.add(serval);
+      loader.loadVpd( vpdFile, function ( vpd ) {
+				// initGui( mesh, vpds );
+				// ready = true;
+  		}, onProgress, onError );
     }, onProgress, onError);
 
     ////////////////////////////////////////
