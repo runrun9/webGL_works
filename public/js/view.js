@@ -1,12 +1,10 @@
 (function(){
   var stats;
-  var edge, beard, camera, scene, renderer;
+  var serval, edge, beard, camera, scene, renderer;
   var helper;
   var windowWidth = window.innerWidth;
   var windowHeight = window.innerHeight;
   var clock = new THREE.Clock();
-  var modelReady = false;
-  var musicReady = false;
   var controls;
   var composer,glitchPass;
   var meshes = {
@@ -103,40 +101,27 @@
     beard.position.set(0, 45, 35)
     scene.add(beard);
 
-    // モデル読み込み(キツネ)
-    // パーサーを作ります
-    var parser = new vox.Parser();
-    // *.voxファイルを読み込みます
-    parser.parse("models/vox/chr_fox.vox").then(function(voxelData) { // ←ボクセルデータが取れます
-      // // データ全体の大きさ
-      // voxelData.size; // => { x: number, y: number, z: number }
-      // // ボクセルの配列
-      // voxelData.voxels; // => [Voxel, Voxel, Voxel, ...]
-      // // ボクセル一個のデータ
-      // voxelData.voxels[0]; // => { x: number, y: number, z: number, colorIndex: number }
-      // // カラーパレット
-      // voxelData.palette; // => [Color, Color, Color, ...]
-      // voxelData.palette[0]; // => { r: number, g: number, b: number, a: number }
 
-      // ビルダーを作ります。引数にボクセルデータをわたします
-      var builder = new vox.MeshBuilder(voxelData);
-      // THREE.Meshを作ります
-      meshes.fox = builder.createMesh();
-      // THREE.Sceneに追加するなどして使ってください
-      // mesh.material.specular="0xffff00";
-      meshes.fox.material.specular.r=0;
-      meshes.fox.material.specular.g=255;
-      meshes.fox.material.specular.b=255;
-      meshes.fox.material.shininess=1000;
-      meshes.fox.material.transparent=true;
-      meshes.fox.material.opacity=0.7;
-      scene.add(meshes.fox);
-      edges.fox = new THREE.EdgesHelper( meshes.fox, "#000" );
-      edges.fox.material.linewidth = 2;
-      scene.add(edges.fox);
-      meshes.fox.castShadow = true;
-      meshes.fox.receiveShadow = true;
-    });
+    // パーサーを作る
+    var parser = new vox.Parser();
+
+    // foxを作る
+    // parser.parse("models/vox/chr_fox.vox").then(function(voxelData) { // ←ボクセルデータが取れます
+    //   var builder = new vox.MeshBuilder(voxelData);
+    //   meshes.fox = builder.createMesh();
+    //   meshes.fox.material.specular.r=0;
+    //   meshes.fox.material.specular.g=255;
+    //   meshes.fox.material.specular.b=255;
+    //   meshes.fox.material.shininess=1000;
+    //   meshes.fox.material.transparent=true;
+    //   meshes.fox.material.opacity=0.7;
+    //   scene.add(meshes.fox);
+    //   edges.fox = new THREE.EdgesHelper( meshes.fox, "#000" );
+    //   edges.fox.material.linewidth = 2;
+    //   scene.add(edges.fox);
+    //   meshes.fox.castShadow = true;
+    //   meshes.fox.receiveShadow = true;
+    // });
 
     //↑同じくrainを作る
     parser.parse("models/vox/chr_rain.vox").then(function(voxelData) {
@@ -227,6 +212,27 @@
     pointCloud = new THREE.Points( particles, material );
     scene.add(pointCloud);
 
+    //MMD出力
+    // モデルとモーションの読み込み準備
+    helper = new THREE.MMDHelper();
+    var onProgress = function (xhr) {
+    };
+    var onError = function (xhr) {
+        alert('読み込みに失敗しました。');
+    };
+    var modelFile = 'models/pmd/サーバル/サーバルちゃん.pmx';
+    var loader = new THREE.MMDLoader();
+    loader.loadModel(modelFile, function(object) {
+      // modelReady = true;
+      console.log("aaaaa");
+      serval = object;
+      serval.material.shininess=0;
+      serval.castShadow = true;
+      serval.receiveShadow = true;
+      serval.position.set(0, -10, 0);
+      scene.add(serval);
+    }, onProgress, onError);
+
     ////////////////////////////////////////
     // shadow
     light1.castShadow = true;
@@ -260,11 +266,11 @@
       stats.update();
       controls.update();
 
-      meshes.fox.rotation.y += 0.015;
+      // meshes.fox.rotation.y += 0.015;
       meshes.rain.rotation.y += 0.015;
       meshes.unity_chan.rotation.y += 0.015;
       meshes.pronama.rotation.y += 0.015;
-      edges.fox.rotation.y += 0.015;
+      // edges.fox.rotation.y += 0.015;
       edges.rain.rotation.y += 0.015;
       edges.unity_chan.rotation.y += 0.015;
       edges.pronama.rotation.y += 0.015;
