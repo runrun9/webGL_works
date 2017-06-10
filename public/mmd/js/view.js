@@ -105,25 +105,25 @@
     // パーサーを作る
     var parser = new vox.Parser();
 
-    // foxを作る
-    // parser.parse("models/vox/chr_fox.vox").then(function(voxelData) { // ←ボクセルデータが取れます
-    //   var builder = new vox.MeshBuilder(voxelData);
-    //   meshes.fox = builder.createMesh();
-    //   meshes.fox.material.specular.r=0;
-    //   meshes.fox.material.specular.g=255;
-    //   meshes.fox.material.specular.b=255;
-    //   meshes.fox.material.shininess=1000;
-    //   meshes.fox.material.transparent=true;
-    //   meshes.fox.material.opacity=0.7;
-    //   scene.add(meshes.fox);
-    //   edges.fox = new THREE.EdgesHelper( meshes.fox, "#000" );
-    //   edges.fox.material.linewidth = 2;
-    //   scene.add(edges.fox);
-    //   meshes.fox.castShadow = true;
-    //   meshes.fox.receiveShadow = true;
-    // });
+    // fox作成
+    parser.parse("models/vox/chr_fox.vox").then(function(voxelData) { // ←ボクセルデータが取れます
+      var builder = new vox.MeshBuilder(voxelData);
+      meshes.fox = builder.createMesh();
+      meshes.fox.material.specular.r=0;
+      meshes.fox.material.specular.g=255;
+      meshes.fox.material.specular.b=255;
+      meshes.fox.material.shininess=1000;
+      meshes.fox.material.transparent=true;
+      meshes.fox.material.opacity=0.7;
+      scene.add(meshes.fox);
+      edges.fox = new THREE.EdgesHelper( meshes.fox, "#000" );
+      edges.fox.material.linewidth = 2;
+      scene.add(edges.fox);
+      meshes.fox.castShadow = true;
+      meshes.fox.receiveShadow = true;
+    });
 
-    //↑同じくrainを作る
+    //rain作成
     parser.parse("models/vox/chr_rain.vox").then(function(voxelData) {
       // ビルダーを作ります。引数にボクセルデータをわたします
       var builder = new vox.MeshBuilder(voxelData);
@@ -147,7 +147,7 @@
       meshes.rain.receiveShadow = true;
     });
 
-    //↑同じくユニティちゃんを作る
+    //ユニティちゃん作成
     parser.parse("models/vox/unity.vox").then(function(voxelData) {
       // ビルダーを作ります。引数にボクセルデータをわたします
       var builder = new vox.MeshBuilder(voxelData);
@@ -171,7 +171,7 @@
       meshes.unity_chan.receiveShadow = true;
     });
 
-    //↑同じくプロ生ちゃんを作る
+    //プロ生ちゃん作成
     parser.parse("models/vox/pronama.vox").then(function(voxelData) {
       // ビルダーを作ります。引数にボクセルデータをわたします
       var builder = new vox.MeshBuilder(voxelData);
@@ -214,27 +214,27 @@
 
     //MMD出力
     // モデルとモーションの読み込み準備
-    helper = new THREE.MMDHelper();
-    var onProgress = function (xhr) {
-    };
-    var onError = function (xhr) {
-        alert('読み込みに失敗しました。');
-    };
-    var modelFile = 'models/pmd/サーバル/サーバルちゃん.pmx';
-    var vpdFile = 'models/pmd/サーバル/07.vpd'
-    var loader = new THREE.MMDLoader();
-    loader.loadModel(modelFile, function(object) {
-      // modelReady = true;
-      serval = object;
-      serval.material.shininess=0;
-      serval.position.set(0, -10, 0);
-      serval.scale.set(1.5, 1.5, 1.5);
-      scene.add(serval);
-      loader.loadVpd( vpdFile, function ( vpd ) {
-				// initGui( mesh, vpds );
-				// ready = true;
-  		}, onProgress, onError );
-    }, onProgress, onError);
+    // helper = new THREE.MMDHelper();
+    // var onProgress = function (xhr) {
+    // };
+    // var onError = function (xhr) {
+    //     alert('読み込みに失敗しました。');
+    // };
+    // var modelFile = 'models/pmd/サーバル/サーバルちゃん.pmx';
+    // var vpdFile = 'models/pmd/サーバル/07.vpd'
+    // var loader = new THREE.MMDLoader();
+    // loader.loadModel(modelFile, function(object) {
+    //   // modelReady = true;
+    //   serval = object;
+    //   serval.material.shininess=0;
+    //   serval.position.set(0, -10, 0);
+    //   serval.scale.set(1.5, 1.5, 1.5);
+    //   scene.add(serval);
+    //   loader.loadVpd( vpdFile, function ( vpd ) {
+		// 		// initGui( mesh, vpds );
+		// 		// ready = true;
+  	// 	}, onProgress, onError );
+    // }, onProgress, onError);
 
     ////////////////////////////////////////
     // shadow
@@ -269,11 +269,14 @@
       stats.update();
       controls.update();
 
-      // meshes.fox.rotation.y += 0.015;
+      //mesh回転
+      meshes.fox.rotation.y += 0.015;
       meshes.rain.rotation.y += 0.015;
       meshes.unity_chan.rotation.y += 0.015;
       meshes.pronama.rotation.y += 0.015;
-      // edges.fox.rotation.y += 0.015;
+
+      //edge回転
+      edges.fox.rotation.y += 0.015;
       edges.rain.rotation.y += 0.015;
       edges.unity_chan.rotation.y += 0.015;
       edges.pronama.rotation.y += 0.015;
