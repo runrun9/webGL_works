@@ -1,7 +1,6 @@
-#testGL
-WebVRの動作test
+# 概要
+WebGLの動作チェック。
+スマートフォンでのVRに対応。
 
 # Demo
 https://immense-escarpment-74656.herokuapp.com/
-
-スマートフォンのGoogle chromeで横画面にして見てください
