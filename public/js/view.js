@@ -55,7 +55,7 @@
 
     // カメラの作成
     camera = new THREE.PerspectiveCamera(50, windowWidth / windowHeight, 1, 1000);
-    // camera.position.set(0, 10, 35);
+    camera.position.set(0, 10, 35);
     scene.add(camera);
     // VR表示へ変換
     effect = new THREE.StereoEffect(renderer);
@@ -281,12 +281,7 @@
       // カメラ移動
       if(input_key_buffer[65]){
         console.log(camera.position);
-        camera.position.set(40, 10, 35);
-        controls.target.set(
-          camera.position.x,
-          camera.position.y,
-          camera.position.z-0.15
-        );
+        camera.position.X += 0.1;
       }
 
 
