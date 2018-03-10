@@ -7,6 +7,7 @@
   var clock = new THREE.Clock();
   var controls;
   var composer,glitchPass;
+  var input_key_buffer = new Array();
   var meshes = {
     "fox": null,
     "rain": null,
@@ -54,7 +55,7 @@
 
     // カメラの作成
     camera = new THREE.PerspectiveCamera(50, windowWidth / windowHeight, 1, 1000);
-    camera.position.set(0, 10, 35);
+    // camera.position.set(0, 10, 35);
     scene.add(camera);
     // VR表示へ変換
     effect = new THREE.StereoEffect(renderer);
@@ -73,11 +74,11 @@
     }
     window.addEventListener("deviceorientation", setOrientationControls, true);
     //controls.rotateUp(Math.PI / 4);
-    controls.target.set(
-      camera.position.x,
-      camera.position.y,
-      camera.position.z-0.15
-    );
+    // controls.target.set(
+    //   camera.position.x,
+    //   camera.position.y,
+    //   camera.position.z-0.15
+    // );
     controls.noZoom = true;
     controls.noPan = true;
     controls.update();
@@ -248,6 +249,14 @@
     // リサイズ時
     window.addEventListener('resize', onWindowResize, false);
     onWindowResize();
+
+    // キー入力
+    document.onkeydown = function(e){
+      input_key_buffer[e.keyCode] = true;
+    }
+    document.onkeyup = function(e){
+      input_key_buffer[e.keyCode] = false;
+    }
   }
 
   function onWindowResize() {
@@ -269,13 +278,26 @@
       stats.update();
       controls.update();
 
-      //mesh回転
+      // カメラ移動
+      if(input_key_buffer[65]){
+        console.log(camera.position);
+        camera.position.set(40, 10, 35);
+        controls.target.set(
+          camera.position.x,
+          camera.position.y,
+          camera.position.z-0.15
+        );
+      }
+
+
+
+      // mesh回転
       meshes.fox.rotation.y += 0.015;
       meshes.rain.rotation.y += 0.015;
       meshes.unity_chan.rotation.y += 0.015;
       meshes.pronama.rotation.y += 0.015;
 
-      //edge回転
+      // edge回転
       edges.fox.rotation.y += 0.015;
       edges.rain.rotation.y += 0.015;
       edges.unity_chan.rotation.y += 0.015;
