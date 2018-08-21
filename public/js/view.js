@@ -74,14 +74,21 @@
     }
     window.addEventListener("deviceorientation", setOrientationControls, true);
     //controls.rotateUp(Math.PI / 4);
-    // controls.target.set(
-    //   camera.position.x,
-    //   camera.position.y,
-    //   camera.position.z-0.15
-    // );
+    controls.target.set(
+      camera.position.x,
+      camera.position.y,
+      camera.position.z-0.15
+    );
     controls.noZoom = true;
     controls.noPan = true;
     controls.update();
+
+    // カメラ移動用のコンテナの作成
+    cameraContainer = new THREE.Object3D();
+    cameraContainer.add(camera);
+    scene.add(cameraContainer);
+
+
 
     // ステージの作成
     var sGeometry = new THREE.PlaneGeometry(300, 300);
@@ -276,16 +283,10 @@
       // renderer.clear();
       effect.render(scene, camera);
       stats.update();
-      controls.update();
+      controls.update()
 
-      // カメラ移動
-      if(input_key_buffer[65]){
-        console.log(camera.position);
-        camera.position.X += 0.1;
-      }
-      // camera.position.set(camera.position.X + 0.5, 10, 35);
-
-
+      // cameraContainer移動
+      cameraContainer.position.x += 0.1;
 
       // mesh回転
       meshes.fox.rotation.y += 0.015;
@@ -299,8 +300,5 @@
       edges.unity_chan.rotation.y += 0.015;
       edges.pronama.rotation.y += 0.015;
       beard.rotation.setFromRotationMatrix(camera.matrix);
-      // fox.scale.x += 0.0005;
-      // fox.scale.y += 0.0005;
-      // fox.scale.z += 0.0005;
   }
 })();
