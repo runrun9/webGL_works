@@ -283,7 +283,7 @@
         console.log(camera.position);
         camera.position.X += 0.1;
       }
-      camera.position.X += 0.1;
+      // camera.position.set(camera.position.X + 0.5, 10, 35);
 
 
 
