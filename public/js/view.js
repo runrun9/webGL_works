@@ -159,27 +159,27 @@
 
     //MMD出力
     // モデルとモーションの読み込み準備
-    helper = new THREE.MMDHelper();
-    var onProgress = function (xhr) {
-    };
-    var onError = function (xhr) {
-        alert('読み込みに失敗しました。');
-    };
-    var modelFile = 'models/pmd/サーバル/サーバルちゃん.pmx';
-    var vpdFile = 'models/pmd/サーバル/07.vpd'
-    var loader = new THREE.MMDLoader();
-    loader.loadModel(modelFile, function(object) {
-      // modelReady = true;
-      serval = object;
-      serval.material.shininess=0;
-      serval.position.set(0, -10, 0);
-      serval.scale.set(1.5, 1.5, 1.5);
-      scene.add(serval);
-      loader.loadVpd( vpdFile, function ( vpd ) {
-				// initGui( mesh, vpds );
-				// ready = true;
-  		}, onProgress, onError );
-    }, onProgress, onError);
+    // helper = new THREE.MMDHelper();
+    // var onProgress = function (xhr) {
+    // };
+    // var onError = function (xhr) {
+    //     alert('読み込みに失敗しました。');
+    // };
+    // var modelFile = 'models/pmd/サーバル/サーバルちゃん.pmx';
+    // var vpdFile = 'models/pmd/サーバル/07.vpd'
+    // var loader = new THREE.MMDLoader();
+    // loader.loadModel(modelFile, function(object) {
+    //   // modelReady = true;
+    //   serval = object;
+    //   serval.material.shininess=0;
+    //   serval.position.set(0, -10, 0);
+    //   serval.scale.set(1.5, 1.5, 1.5);
+    //   scene.add(serval);
+    //   loader.loadVpd( vpdFile, function ( vpd ) {
+		// 		// initGui( mesh, vpds );
+		// 		// ready = true;
+  	// 	}, onProgress, onError );
+    // }, onProgress, onError);
 
     ////////////////////////////////////////
     // shadow
