@@ -223,7 +223,7 @@
       controls.update()
 
       // cameraContainer移動
-      cameraContainer.position.x += 0.1;
+      // cameraContainer.position.x += 0.1;
 
       // mesh回転
       meshes.fox.rotation.y += 0.015;
