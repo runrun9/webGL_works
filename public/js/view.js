@@ -222,8 +222,33 @@
       stats.update();
       controls.update()
 
+      // cameraのvectorを取得
+      var lookAtVector = new THREE.Vector3(0,0, -1);
+      lookAtVector.applyQuaternion(camera.quaternion);
+
+      // key入力
+      if (input_key_buffer[87]){
+        cameraContainer.position.x += lookAtVector.x * 0.1;
+        cameraContainer.position.z += lookAtVector.z * 0.1;
+
+      }
+      if (input_key_buffer[65]){
+        cameraContainer.position.x += lookAtVector.z * 0.1;
+        cameraContainer.position.z -= lookAtVector.x * 0.1;
+      }
+      if (input_key_buffer[83]){
+        cameraContainer.position.x -= lookAtVector.x * 0.1;
+        cameraContainer.position.z -= lookAtVector.z * 0.1;
+      }
+      if (input_key_buffer[68]){
+        cameraContainer.position.x -= lookAtVector.z * 0.1;
+        cameraContainer.position.z += lookAtVector.x * 0.1;
+      }
+
       // cameraContainer移動
       // cameraContainer.position.x += 0.1;
+      // console.log(camera.rotation.y);
+
 
       // mesh回転
       meshes.fox.rotation.y += 0.015;
