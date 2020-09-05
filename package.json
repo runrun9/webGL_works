@@ -3,5 +3,9 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "^4.13.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }
