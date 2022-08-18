@@ -3,4 +3,4 @@ WebGLの動作チェック。
 スマートフォンでのVRに対応。
 
 # Demo
-https://immense-escarpment-74656.herokuapp.com/
+[gihub pages](https://runrun9.github.io/webGL_works/public)
